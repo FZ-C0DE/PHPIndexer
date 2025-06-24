@@ -14,18 +14,46 @@
                 </h6>
             </li>
             
-            <li class="nav-item">
-                <a class="nav-link <?= basename($_SERVER['PHP_SELF']) == 'manage.php' && strpos($_SERVER['REQUEST_URI'], 'teachers') !== false ? 'active' : '' ?>" href="teachers/manage.php">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="collapse" data-bs-target="#teachersMenu">
                     <i class="fas fa-chalkboard-teacher"></i>
                     Data Guru
                 </a>
+                <div class="collapse" id="teachersMenu">
+                    <ul class="nav flex-column ms-3">
+                        <li class="nav-item">
+                            <a class="nav-link" href="teachers/manage.php">
+                                <i class="fas fa-list"></i> Kelola Guru
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="teachers/add-edit.php?action=add">
+                                <i class="fas fa-plus"></i> Tambah Guru
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </li>
             
-            <li class="nav-item">
-                <a class="nav-link <?= basename($_SERVER['PHP_SELF']) == 'manage.php' && strpos($_SERVER['REQUEST_URI'], 'students') !== false ? 'active' : '' ?>" href="students/manage.php">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="collapse" data-bs-target="#studentsMenu">
                     <i class="fas fa-user-graduate"></i>
                     Data Siswa
                 </a>
+                <div class="collapse" id="studentsMenu">
+                    <ul class="nav flex-column ms-3">
+                        <li class="nav-item">
+                            <a class="nav-link" href="students/manage.php">
+                                <i class="fas fa-list"></i> Kelola Siswa
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="students/add-edit.php?action=add">
+                                <i class="fas fa-plus"></i> Tambah Siswa
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </li>
             
             <li class="nav-item">
@@ -34,18 +62,46 @@
                 </h6>
             </li>
             
-            <li class="nav-item">
-                <a class="nav-link <?= basename($_SERVER['PHP_SELF']) == 'manage.php' && strpos($_SERVER['REQUEST_URI'], 'classes') !== false ? 'active' : '' ?>" href="classes/manage.php">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="collapse" data-bs-target="#classesMenu">
                     <i class="fas fa-school"></i>
                     Data Kelas
                 </a>
+                <div class="collapse" id="classesMenu">
+                    <ul class="nav flex-column ms-3">
+                        <li class="nav-item">
+                            <a class="nav-link" href="classes/manage.php">
+                                <i class="fas fa-list"></i> Kelola Kelas
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="classes/add-edit.php?action=add">
+                                <i class="fas fa-plus"></i> Tambah Kelas
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </li>
             
-            <li class="nav-item">
-                <a class="nav-link <?= basename($_SERVER['PHP_SELF']) == 'manage.php' && strpos($_SERVER['REQUEST_URI'], 'subjects') !== false ? 'active' : '' ?>" href="subjects/manage.php">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="collapse" data-bs-target="#subjectsMenu">
                     <i class="fas fa-book"></i>
                     Mata Pelajaran
                 </a>
+                <div class="collapse" id="subjectsMenu">
+                    <ul class="nav flex-column ms-3">
+                        <li class="nav-item">
+                            <a class="nav-link" href="subjects/manage.php">
+                                <i class="fas fa-list"></i> Kelola Mata Pelajaran
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="subjects/add-edit.php?action=add">
+                                <i class="fas fa-plus"></i> Tambah Mata Pelajaran
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </li>
             
             <li class="nav-item">
