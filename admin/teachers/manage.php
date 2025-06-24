@@ -127,7 +127,7 @@ body {
 
 <?php include '../includes/sidebar.php'; ?>
 
-<div class="main-content">
+<main class="main-content">
     <div class="page-header">
         <div class="d-flex justify-content-between align-items-center">
             <div>
@@ -328,44 +328,6 @@ body {
             </table>
         </div>
     </div>
-</div>
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.bootstrap5.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
-
-<script>
-$(document).ready(function() {
-    $('#teachersTable').DataTable({
-        language: {
-            url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/id.json'
-        },
-        pageLength: 25,
-        order: [[1, 'asc']],
-        columnDefs: [
-            { orderable: false, targets: [6] }
-        ],
-        dom: 'Bfrtip',
-        buttons: [
-            {
-                extend: 'excel',
-                text: '<i class="fas fa-file-excel me-1"></i>Export Excel',
-                className: 'btn btn-success btn-sm'
-            },
-            {
-                extend: 'pdf',
-                text: '<i class="fas fa-file-pdf me-1"></i>Export PDF',
-                className: 'btn btn-danger btn-sm'
-            }
-        ]
-    });
-});
-</script>
+</main>
 
 <?php include '../includes/footer.php'; ?>

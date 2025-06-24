@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -48,7 +49,4 @@
     </nav>
 
     <!-- Main Container -->
-    <div class="container-fluid admin-layout">
-        <div class="row">
-</body>
-</html>
+    <div class="admin-layout">

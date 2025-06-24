@@ -105,7 +105,7 @@ body {
 
 <?php include '../includes/sidebar.php'; ?>
 
-<div class="main-content">
+<main class="main-content">
     <div class="page-header">
         <div class="d-flex justify-content-between align-items-center">
             <div>
@@ -314,7 +314,7 @@ body {
             </div>
         </div>
     </div>
-</div>
+</main>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
