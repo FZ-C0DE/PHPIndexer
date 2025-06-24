@@ -1,4 +1,3 @@
-
 <?php
 require_once '../../includes/auth-check.php';
 require_once '../../config/database.php';
@@ -30,7 +29,7 @@ try {
         // Check if there are any teachers
         $stmt = $pdo->query("SELECT COUNT(*) as count FROM teachers");
         $teacher_count = $stmt->fetch()['count'];
-        
+
         if ($teacher_count == 0) {
             $teachers = [];
             $error = 'Belum ada data guru. Silakan tambah guru terlebih dahulu.';
@@ -50,7 +49,7 @@ try {
                 ORDER BY t.full_name
             ");
             $teachers = $stmt->fetchAll();
-            
+
             if (empty($teachers)) {
                 $error = 'Data guru kosong atau terjadi kesalahan dalam mengambil data.';
             }
@@ -154,7 +153,7 @@ body {
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
     <?php endif; ?>
-    
+
     <?php if ($success): ?>
         <div class="alert alert-success alert-dismissible fade show">
             <i class="fas fa-check-circle me-2"></i><?= $success ?>

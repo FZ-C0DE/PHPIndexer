@@ -7,13 +7,13 @@
                     Dashboard
                 </a>
             </li>
-            
+
             <li class="nav-item">
                 <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted text-uppercase">
                     <span>Manajemen Pengguna</span>
                 </h6>
             </li>
-            
+
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="collapse" data-bs-target="#teachersMenu">
                     <i class="fas fa-chalkboard-teacher"></i>
@@ -34,7 +34,7 @@
                     </ul>
                 </div>
             </li>
-            
+
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="collapse" data-bs-target="#studentsMenu">
                     <i class="fas fa-user-graduate"></i>
@@ -55,13 +55,13 @@
                     </ul>
                 </div>
             </li>
-            
+
             <li class="nav-item">
                 <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted text-uppercase">
                     <span>Akademik</span>
                 </h6>
             </li>
-            
+
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="collapse" data-bs-target="#classesMenu">
                     <i class="fas fa-school"></i>
@@ -82,7 +82,7 @@
                     </ul>
                 </div>
             </li>
-            
+
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="collapse" data-bs-target="#subjectsMenu">
                     <i class="fas fa-book"></i>
@@ -103,27 +103,27 @@
                     </ul>
                 </div>
             </li>
-            
+
             <li class="nav-item">
                 <a class="nav-link <?= basename($_SERVER['PHP_SELF']) == 'teacher.php' ? 'active' : '' ?>" href="attendance/teacher.php">
                     <i class="fas fa-clock"></i>
                     Absensi Guru
                 </a>
             </li>
-            
+
             <li class="nav-item">
                 <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted text-uppercase">
                     <span>Website</span>
                 </h6>
             </li>
-            
+
             <li class="nav-item">
                 <a class="nav-link <?= basename($_SERVER['PHP_SELF']) == 'school_profile.php' ? 'active' : '' ?>" href="school_profile.php">
                     <i class="fas fa-info-circle"></i>
                     Profil Sekolah
                 </a>
             </li>
-            
+
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="collapse" data-bs-target="#galleryMenu">
                     <i class="fas fa-images"></i>
@@ -144,13 +144,13 @@
                     </ul>
                 </div>
             </li>
-            
+
             <li class="nav-item">
                 <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted text-uppercase">
                     <span>Sistem</span>
                 </h6>
             </li>
-            
+
             <li class="nav-item">
                 <a class="nav-link <?= basename($_SERVER['PHP_SELF']) == 'manage.php' && strpos($_SERVER['REQUEST_URI'], 'users') !== false ? 'active' : '' ?>" href="users/manage.php">
                     <i class="fas fa-users"></i>
