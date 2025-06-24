@@ -1,3 +1,4 @@
+
 # Apache configuration for School Management System
 
 # Enable rewrite engine
@@ -18,7 +19,7 @@ RewriteEngine On
     Header set Referrer-Policy "strict-origin-when-cross-origin"
     
     # Content security policy (adjust as needed)
-    Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' cdn.jsdelivr.net code.jquery.com cdn.datatables.net; style-src 'self' 'unsafe-inline' cdn.jsdelivr.net fonts.googleapis.com; font-src 'self' fonts.gstatic.com; img-src 'self' data: images.unsplash.com;"
+    Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' cdn.jsdelivr.net code.jquery.com cdn.datatables.net; style-src 'self' 'unsafe-inline' cdn.jsdelivr.net fonts.googleapis.com; font-src 'self' fonts.gstatic.com; img-src 'self' data: images.unsplash.com via.placeholder.com;"
 </IfModule>
 
 # Hide sensitive files
@@ -37,10 +38,11 @@ RewriteEngine On
     Deny from all
 </Files>
 
-# Prevent access to sensitive directories
-RedirectMatch 404 ^/config/
-RedirectMatch 404 ^/database/
-RedirectMatch 404 ^/libs/
+# Prevent access to sensitive directories but allow proper access to files
+<LocationMatch "^/(config|database|libs)/">
+    Order allow,deny
+    Deny from all
+</LocationMatch>
 
 # Enable compression
 <IfModule mod_deflate.c>
@@ -99,22 +101,11 @@ RedirectMatch 404 ^/libs/
     ExpiresByType application/xhtml+xml "access plus 1 day"
 </IfModule>
 
-# URL Redirects for cleaner URLs
+# URL Redirects for cleaner URLs (simplified)
 RewriteRule ^admin/?$ admin/dashboard.php [L]
 RewriteRule ^teacher/?$ teacher/dashboard.php [L]
 RewriteRule ^login/?$ auth/login.php [L]
 RewriteRule ^logout/?$ auth/logout.php [L]
-
-# Custom Error Pages
-ErrorDocument 404 /404.php
-ErrorDocument 403 /403.php
-ErrorDocument 500 /500.php
-
-# Prevent hotlinking of images
-RewriteCond %{HTTP_REFERER} !^$
-RewriteCond %{HTTP_REFERER} !^http(s)?://(www\.)?yourdomain.com [NC]
-RewriteCond %{HTTP_REFERER} !^http(s)?://(www\.)?localhost [NC]
-RewriteRule \.(jpg|jpeg|png|gif)$ - [NC,F,L]
 
 # PHP Settings
 <IfModule mod_php7.c>
@@ -124,12 +115,12 @@ RewriteRule \.(jpg|jpeg|png|gif)$ - [NC,F,L]
     php_value max_input_vars 3000
     php_flag display_errors Off
     php_flag log_errors On
-    php_value error_log /path/to/php_errors.log
 </IfModule>
 
 # Disable server signature
 ServerSignature Off
 
-# Remove 'www' from URLs (optional)
-# RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
-# RewriteRule ^(.*)$ http://%1/$1 [R=301,L]
+# Allow access to static assets
+<FilesMatch "\.(css|js|png|jpg|jpeg|gif|ico|woff|woff2|ttf|eot|svg)$">
+    Allow from all
+</FilesMatch>
