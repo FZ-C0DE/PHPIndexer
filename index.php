@@ -1,6 +1,11 @@
 <?php
-require_once 'config/database.php';
+// Enable error reporting for debugging in XAMPP
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('log_errors', 1);
+
 require_once 'config/constants.php';
+require_once 'config/database.php';
 
 // Get school profile
 try {

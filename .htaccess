@@ -1,10 +1,35 @@
-
 # Apache configuration for School Management System
-
-# Enable rewrite engine
 RewriteEngine On
 
-# Security Headers
+# Enable error reporting (for development only)
+php_flag display_errors On
+php_value error_reporting "E_ALL"
+
+# Security headers
+Header always set X-Content-Type-Options nosniff
+Header always set X-Frame-Options DENY
+Header always set X-XSS-Protection "1; mode=block"
+
+# Prevent access to sensitive files
+<Files ~ "\.(ini|log|conf)$">
+    Order Allow,Deny
+    Deny from all
+</Files>
+
+# Prevent access to config and includes directories
+RedirectMatch 403 ^/config/.*$
+RedirectMatch 403 ^/includes/.*$
+RedirectMatch 403 ^/database/.*$
+
+# Custom error pages
+ErrorDocument 404 /projectAi/PHPIndexer/404.php
+ErrorDocument 403 /projectAi/PHPIndexer/403.php
+
+# URL Rewriting for clean URLs (optional)
+# RewriteCond %{REQUEST_FILENAME} !-f
+# RewriteCond %{REQUEST_FILENAME} !-d
+# RewriteRule ^([^/]+)/?$ public/$1.php [L,QSA]
+
 <IfModule mod_headers.c>
     # Prevent clickjacking
     Header always append X-Frame-Options SAMEORIGIN
