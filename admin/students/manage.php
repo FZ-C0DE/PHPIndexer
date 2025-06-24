@@ -1,4 +1,3 @@
-
 <?php
 require_once '../../includes/auth-check.php';
 require_once '../../config/database.php';
@@ -127,7 +126,7 @@ body {
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
     <?php endif; ?>
-    
+
     <?php if ($success): ?>
         <div class="alert alert-success alert-dismissible fade show">
             <i class="fas fa-check-circle me-2"></i><?= $success ?>
@@ -225,92 +224,94 @@ body {
 
     <!-- Data Table -->
     <div class="data-table">
-        <div class="table-responsive">
-            <table class="table table-hover mb-0" id="studentsTable">
-                <thead>
-                    <tr>
-                        <th>NISN</th>
-                        <th>Nama Siswa</th>
-                        <th>Kelas</th>
-                        <th>Jenis Kelamin</th>
-                        <th>Telepon</th>
-                        <th>Status</th>
-                        <th width="120">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach($students as $student): ?>
-                    <tr>
-                        <td>
-                            <strong class="text-primary"><?= htmlspecialchars($student['student_id']) ?></strong>
-                        </td>
-                        <td>
-                            <div class="d-flex align-items-center">
-                                <div class="student-avatar me-3">
-                                    <?= strtoupper(substr($student['full_name'], 0, 1)) ?>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0" id="studentsTable">
+                    <thead>
+                        <tr>
+                            <th>NISN</th>
+                            <th>Nama Siswa</th>
+                            <th>Kelas</th>
+                            <th>Jenis Kelamin</th>
+                            <th>Telepon</th>
+                            <th>Status</th>
+                            <th width="120">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach($students as $student): ?>
+                        <tr>
+                            <td>
+                                <strong class="text-primary"><?= htmlspecialchars($student['student_id']) ?></strong>
+                            </td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="student-avatar me-3">
+                                        <?= strtoupper(substr($student['full_name'], 0, 1)) ?>
+                                    </div>
+                                    <div>
+                                        <strong><?= htmlspecialchars($student['full_name']) ?></strong>
+                                        <br><small class="text-muted"><?= htmlspecialchars($student['place_of_birth']) ?>, <?= date('d/m/Y', strtotime($student['date_of_birth'])) ?></small>
+                                    </div>
                                 </div>
-                                <div>
-                                    <strong><?= htmlspecialchars($student['full_name']) ?></strong>
-                                    <br><small class="text-muted"><?= htmlspecialchars($student['place_of_birth']) ?>, <?= date('d/m/Y', strtotime($student['date_of_birth'])) ?></small>
+                            </td>
+                            <td>
+                                <span class="badge bg-info">
+                                    <?= htmlspecialchars($student['class_level'] . ' ' . $student['class_name']) ?>
+                                </span>
+                            </td>
+                            <td>
+                                <?php if ($student['gender'] === 'male'): ?>
+                                    <i class="fas fa-mars text-primary me-1"></i>Laki-laki
+                                <?php else: ?>
+                                    <i class="fas fa-venus text-danger me-1"></i>Perempuan
+                                <?php endif; ?>
+                            </td>
+                            <td>
+                                <i class="fas fa-phone me-1"></i><?= htmlspecialchars($student['phone']) ?>
+                            </td>
+                            <td>
+                                <?php 
+                                $statusColors = [
+                                    'active' => 'success',
+                                    'inactive' => 'secondary', 
+                                    'graduated' => 'primary'
+                                ];
+                                $statusTexts = [
+                                    'active' => 'Aktif',
+                                    'inactive' => 'Tidak Aktif',
+                                    'graduated' => 'Lulus'
+                                ];
+                                ?>
+                                <span class="badge bg-<?= $statusColors[$student['status']] ?>">
+                                    <?= $statusTexts[$student['status']] ?>
+                                </span>
+                            </td>
+                            <td>
+                                <div class="btn-group btn-group-sm">
+                                    <a href="detail.php?id=<?= $student['id'] ?>" 
+                                       class="btn btn-outline-info btn-action" 
+                                       title="Lihat Detail">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a href="add-edit.php?action=edit&id=<?= $student['id'] ?>" 
+                                       class="btn btn-outline-primary btn-action" 
+                                       title="Edit">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a href="?action=delete&id=<?= $student['id'] ?>" 
+                                       class="btn btn-outline-danger btn-action btn-delete" 
+                                       title="Hapus"
+                                       onclick="return confirm('Yakin ingin menghapus siswa ini?')">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
                                 </div>
-                            </div>
-                        </td>
-                        <td>
-                            <span class="badge bg-info">
-                                <?= htmlspecialchars($student['class_level'] . ' ' . $student['class_name']) ?>
-                            </span>
-                        </td>
-                        <td>
-                            <?php if ($student['gender'] === 'male'): ?>
-                                <i class="fas fa-mars text-primary me-1"></i>Laki-laki
-                            <?php else: ?>
-                                <i class="fas fa-venus text-danger me-1"></i>Perempuan
-                            <?php endif; ?>
-                        </td>
-                        <td>
-                            <i class="fas fa-phone me-1"></i><?= htmlspecialchars($student['phone']) ?>
-                        </td>
-                        <td>
-                            <?php 
-                            $statusColors = [
-                                'active' => 'success',
-                                'inactive' => 'secondary', 
-                                'graduated' => 'primary'
-                            ];
-                            $statusTexts = [
-                                'active' => 'Aktif',
-                                'inactive' => 'Tidak Aktif',
-                                'graduated' => 'Lulus'
-                            ];
-                            ?>
-                            <span class="badge bg-<?= $statusColors[$student['status']] ?>">
-                                <?= $statusTexts[$student['status']] ?>
-                            </span>
-                        </td>
-                        <td>
-                            <div class="btn-group btn-group-sm">
-                                <a href="detail.php?id=<?= $student['id'] ?>" 
-                                   class="btn btn-outline-info btn-action" 
-                                   title="Lihat Detail">
-                                    <i class="fas fa-eye"></i>
-                                </a>
-                                <a href="add-edit.php?action=edit&id=<?= $student['id'] ?>" 
-                                   class="btn btn-outline-primary btn-action" 
-                                   title="Edit">
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                                <a href="?action=delete&id=<?= $student['id'] ?>" 
-                                   class="btn btn-outline-danger btn-action btn-delete" 
-                                   title="Hapus"
-                                   onclick="return confirm('Yakin ingin menghapus siswa ini?')">
-                                    <i class="fas fa-trash"></i>
-                                </a>
-                            </div>
-                        </td>
-                    </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
@@ -352,17 +353,17 @@ $(document).ready(function() {
             }
         ]
     });
-    
+
     // Custom search
     $('#searchInput').on('keyup', function() {
         studentsTable.search(this.value).draw();
     });
-    
+
     // Class filter
     $('#classFilter').on('change', function() {
         studentsTable.column(2).search(this.value).draw();
     });
-    
+
     // Status filter
     $('#statusFilter').on('change', function() {
         studentsTable.column(5).search(this.value).draw();

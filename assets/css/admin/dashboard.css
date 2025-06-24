@@ -52,12 +52,27 @@ body {
     padding-top: 76px; /* Height of navbar */
     padding-left: 0;
     padding-right: 0;
+    min-height: 100vh;
 }
 
 .main-content {
-    padding-top: 1rem;
+    padding: 1rem;
     min-height: calc(100vh - 76px);
     overflow-y: auto;
+    margin-left: 0;
+}
+
+/* Fix for admin pages with sidebar */
+.admin-layout .main-content {
+    margin-left: 250px;
+    padding: 2rem;
+}
+
+@media (max-width: 767.98px) {
+    .admin-layout .main-content {
+        margin-left: 0;
+        padding: 1rem;
+    }
 }
 
 .navbar-brand {
@@ -259,6 +274,21 @@ body {
     border-radius: 0.875rem;
     overflow: hidden;
     box-shadow: var(--shadow);
+    margin-bottom: 0;
+}
+
+.table-responsive {
+    border-radius: 0.875rem;
+    box-shadow: var(--shadow);
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+.table-container {
+    background-color: var(--white);
+    border-radius: 0.875rem;
+    padding: 0;
+    overflow: hidden;
 }
 
 .table thead th {
