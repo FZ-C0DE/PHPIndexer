@@ -1,9 +1,8 @@
 <?php
-require_once '../includes/functions.php';
-require_once '../config/database.php';
+require_once '../../includes/auth-check.php';
+require_once '../../config/database.php';
 
-checkLogin();
-checkRole('admin');
+requireRole('admin');
 
 $error = '';
 $success = '';
@@ -117,12 +116,12 @@ if ($action === 'edit' && isset($_GET['id'])) {
 }
 
 $page_title = 'Data Guru';
-include 'includes/header.php';
+include '../includes/header.php';
 ?>
 
 <div class="container-fluid">
     <div class="row">
-        <?php include 'includes/sidebar.php'; ?>
+        <?php include '../includes/sidebar.php'; ?>
         
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
@@ -144,7 +143,7 @@ include 'includes/header.php';
                 </div>
                 <?php else: ?>
                 <div class="btn-toolbar mb-2 mb-md-0">
-                    <a href="teachers.php" class="btn btn-outline-secondary">
+                    <a href="manage.php" class="btn btn-outline-secondary">
                         <i class="fas fa-arrow-left me-1"></i>Kembali
                     </a>
                 </div>
@@ -284,7 +283,7 @@ include 'includes/header.php';
                             </div>
                             
                             <div class="d-flex justify-content-between">
-                                <a href="teachers.php" class="btn btn-outline-secondary">Batal</a>
+                                <a href="manage.php" class="btn btn-outline-secondary">Batal</a>
                                 <button type="submit" class="btn btn-primary">
                                     <i class="fas fa-save me-1"></i>Simpan
                                 </button>
@@ -297,4 +296,4 @@ include 'includes/header.php';
     </div>
 </div>
 
-<?php include 'includes/footer.php'; ?>
+<?php include '../includes/footer.php'; ?>

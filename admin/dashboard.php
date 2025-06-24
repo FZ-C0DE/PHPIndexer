@@ -1,9 +1,8 @@
 <?php
-require_once '../includes/functions.php';
+require_once '../includes/auth-check.php';
 require_once '../config/database.php';
 
-checkLogin();
-checkRole('admin');
+requireRole('admin');
 
 // Get statistics
 try {
@@ -156,7 +155,7 @@ include 'includes/header.php';
                                     <?php endforeach; ?>
                                 </div>
                                 <div class="text-center mt-3">
-                                    <a href="students.php" class="btn btn-outline-primary btn-sm">
+                                    <a href="students/manage.php" class="btn btn-outline-primary btn-sm">
                                         Lihat Semua Siswa
                                     </a>
                                 </div>
@@ -189,7 +188,7 @@ include 'includes/header.php';
                                     <?php endforeach; ?>
                                 </div>
                                 <div class="text-center mt-3">
-                                    <a href="teachers.php" class="btn btn-outline-primary btn-sm">
+                                    <a href="teachers/manage.php" class="btn btn-outline-primary btn-sm">
                                         Lihat Semua Guru
                                     </a>
                                 </div>
@@ -209,25 +208,25 @@ include 'includes/header.php';
                         <div class="card-body">
                             <div class="row text-center">
                                 <div class="col-lg-3 col-md-6 mb-3">
-                                    <a href="teachers.php?action=add" class="btn btn-outline-primary w-100">
+                                    <a href="teachers/manage.php?action=add" class="btn btn-outline-primary w-100">
                                         <i class="fas fa-user-plus fa-2x mb-2"></i><br>
                                         Tambah Guru
                                     </a>
                                 </div>
                                 <div class="col-lg-3 col-md-6 mb-3">
-                                    <a href="students.php?action=add" class="btn btn-outline-success w-100">
+                                    <a href="students/manage.php?action=add" class="btn btn-outline-success w-100">
                                         <i class="fas fa-user-graduate fa-2x mb-2"></i><br>
                                         Tambah Siswa
                                     </a>
                                 </div>
                                 <div class="col-lg-3 col-md-6 mb-3">
-                                    <a href="classes.php?action=add" class="btn btn-outline-warning w-100">
+                                    <a href="classes/manage.php?action=add" class="btn btn-outline-warning w-100">
                                         <i class="fas fa-plus-square fa-2x mb-2"></i><br>
                                         Tambah Kelas
                                     </a>
                                 </div>
                                 <div class="col-lg-3 col-md-6 mb-3">
-                                    <a href="subjects.php?action=add" class="btn btn-outline-info w-100">
+                                    <a href="subjects/manage.php?action=add" class="btn btn-outline-info w-100">
                                         <i class="fas fa-book-open fa-2x mb-2"></i><br>
                                         Tambah Mata Pelajaran
                                     </a>

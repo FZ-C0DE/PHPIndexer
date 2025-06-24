@@ -1,5 +1,6 @@
 <?php
-require_once 'config/database.php';
+require_once '../config/database.php';
+require_once '../config/constants.php';
 
 // Get school profile
 try {
@@ -42,44 +43,11 @@ try {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/public/style.css">
 </head>
 <body>
     <!-- Header -->
-    <nav class="navbar navbar-expand-lg header-main">
-        <div class="container">
-            <a class="navbar-brand" href="index.php">
-                <i class="fas fa-graduation-cap me-2"></i>
-                <?= htmlspecialchars($school['school_name']) ?>
-            </a>
-            
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#beranda">Beranda</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#profil">Profil</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#galeri">Galeri</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#kontak">Kontak</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="login.php">
-                            <i class="fas fa-sign-in-alt me-1"></i>Login
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+    <?php include '../includes/navbar-public.php'; ?>
 
     <!-- Hero Section -->
     <section id="beranda" class="hero-section">
@@ -92,7 +60,7 @@ try {
                         <a href="#profil" class="btn btn-light btn-lg me-3">
                             <i class="fas fa-info-circle me-2"></i>Pelajari Lebih Lanjut
                         </a>
-                        <a href="login.php" class="btn btn-outline-light btn-lg">
+                        <a href="../auth/login.php" class="btn btn-outline-light btn-lg">
                             <i class="fas fa-sign-in-alt me-2"></i>Login Sistem
                         </a>
                     </div>

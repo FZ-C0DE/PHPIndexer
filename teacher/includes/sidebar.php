@@ -15,21 +15,21 @@
             </li>
             
             <li class="nav-item">
-                <a class="nav-link <?= basename($_SERVER['PHP_SELF']) == 'students.php' ? 'active' : '' ?>" href="students.php">
+                <a class="nav-link <?= basename($_SERVER['PHP_SELF']) == 'my-class.php' ? 'active' : '' ?>" href="classes/my-class.php">
                     <i class="fas fa-user-graduate"></i>
                     Data Siswa
                 </a>
             </li>
             
             <li class="nav-item">
-                <a class="nav-link <?= basename($_SERVER['PHP_SELF']) == 'attendance.php' ? 'active' : '' ?>" href="attendance.php">
+                <a class="nav-link <?= basename($_SERVER['PHP_SELF']) == 'student.php' ? 'active' : '' ?>" href="attendance/student.php">
                     <i class="fas fa-clock"></i>
                     Absensi Siswa
                 </a>
             </li>
             
             <li class="nav-item">
-                <a class="nav-link <?= basename($_SERVER['PHP_SELF']) == 'grades.php' ? 'active' : '' ?>" href="grades.php">
+                <a class="nav-link <?= basename($_SERVER['PHP_SELF']) == 'manage.php' && strpos($_SERVER['REQUEST_URI'], 'grades') !== false ? 'active' : '' ?>" href="grades/manage.php">
                     <i class="fas fa-star"></i>
                     Nilai Siswa
                 </a>

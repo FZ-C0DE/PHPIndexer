@@ -1,6 +1,6 @@
 <?php
-require_once 'includes/functions.php';
-require_once 'config/database.php';
+require_once '../config/functions.php';
+require_once '../config/database.php';
 
 $error = '';
 $success = '';
@@ -8,9 +8,9 @@ $success = '';
 // Redirect if already logged in
 if (isset($_SESSION['user_id'])) {
     if ($_SESSION['role'] === 'admin') {
-        header("Location: admin/dashboard.php");
+        header("Location: ../admin/dashboard.php");
     } else {
-        header("Location: teacher/dashboard.php");
+        header("Location: ../teacher/dashboard.php");
     }
     exit();
 }
@@ -34,9 +34,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_SESSION['role'] = $user['role'];
                 
                 if ($user['role'] === 'admin') {
-                    header("Location: admin/dashboard.php");
+                    header("Location: ../admin/dashboard.php");
                 } else {
-                    header("Location: teacher/dashboard.php");
+                    header("Location: ../teacher/dashboard.php");
                 }
                 exit();
             } else {
@@ -64,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/admin/dashboard.css">
 </head>
 <body>
     <div class="login-container">
@@ -124,7 +124,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 
                 <div class="text-center">
                     <small class="text-muted">
-                        <a href="index.php" class="text-decoration-none">
+                        <a href="../public/index.php" class="text-decoration-none">
                             <i class="fas fa-arrow-left me-1"></i>Kembali ke Beranda
                         </a>
                     </small>

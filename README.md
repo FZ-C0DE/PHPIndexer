@@ -1,33 +1,109 @@
 # Sistem Manajemen Sekolah
 
-Sistem manajemen sekolah berbasis web menggunakan PHP dan MySQL dengan dua peran pengguna yaitu Admin dan Guru.
+Sistem manajemen sekolah berbasis web menggunakan PHP dan MySQL dengan arsitektur yang terorganisir dan profesional.
+
+## Struktur Folder
+
+```
+school_management_system/
+├── assets/                     # Asset statis
+│   ├── css/
+│   │   ├── admin/             # CSS khusus admin
+│   │   │   └── dashboard.css
+│   │   └── public/            # CSS website publik
+│   │       └── style.css
+│   ├── js/
+│   │   ├── admin/             # JavaScript admin
+│   │   │   └── dashboard.js
+│   │   └── public/            # JavaScript publik
+│   │       └── main.js
+│   ├── images/                # Gambar dan upload
+│   │   └── uploads/
+│   │       ├── teachers/
+│   │       ├── students/
+│   │       └── gallery/
+│   └── fonts/                 # Font kustom
+├── config/                    # Konfigurasi sistem
+│   ├── database.php          # Koneksi database
+│   ├── constants.php         # Konstanta aplikasi
+│   └── functions.php         # Fungsi umum
+├── includes/                  # File include
+│   ├── auth-check.php        # Pengecekan autentikasi
+│   └── navbar-public.php     # Navigasi publik
+├── admin/                     # Panel admin
+│   ├── dashboard.php
+│   ├── users/
+│   │   └── manage.php
+│   ├── teachers/
+│   │   └── manage.php
+│   ├── students/
+│   │   └── manage.php
+│   ├── classes/
+│   │   └── manage.php
+│   ├── subjects/
+│   │   └── manage.php
+│   ├── attendance/
+│   │   └── teacher.php
+│   ├── gallery/
+│   │   └── manage.php
+│   └── includes/
+│       ├── header.php
+│       ├── sidebar.php
+│       └── footer.php
+├── teacher/                   # Dashboard guru
+│   ├── dashboard.php
+│   ├── profile.php
+│   ├── classes/
+│   │   └── my-class.php
+│   ├── attendance/
+│   │   └── student.php
+│   ├── grades/
+│   │   └── manage.php
+│   └── includes/
+│       ├── header.php
+│       ├── sidebar.php
+│       └── footer.php
+├── public/                    # Website publik
+│   ├── index.php
+│   ├── about.php
+│   ├── gallery.php
+│   └── contact.php
+├── auth/                      # Autentikasi
+│   ├── login.php
+│   └── logout.php
+├── uploads/                   # Folder upload
+│   ├── teachers/
+│   ├── students/
+│   └── gallery/
+└── database/
+    └── init.sql              # Schema database
+```
 
 ## Fitur Utama
 
 ### Admin Panel
-- **Dashboard Admin**: Statistik lengkap sekolah
-- **Manajemen Pengguna**: Kelola akun admin dan guru
-- **Data Guru**: CRUD lengkap data guru
-- **Data Siswa**: CRUD lengkap data siswa  
-- **Data Kelas**: Kelola kelas dan wali kelas
-- **Mata Pelajaran**: Kelola mata pelajaran dan pengampu
+- **Dashboard**: Statistik dan ringkasan sistem
+- **Manajemen User**: CRUD akun admin dan guru
+- **Data Guru**: Kelola informasi guru lengkap
+- **Data Siswa**: Manajemen data siswa per kelas
+- **Kelas**: Pengaturan kelas dan wali kelas
+- **Mata Pelajaran**: Manajemen mata pelajaran dan pengampu
 - **Absensi Guru**: Pencatatan kehadiran guru
-- **Profil Sekolah**: Kelola informasi sekolah (visi, misi, sejarah, kontak)
-- **Galeri**: Kelola foto untuk website publik
+- **Profil Sekolah**: Kelola visi, misi, sejarah
+- **Galeri**: Manajemen foto untuk website
 
 ### Dashboard Guru
-- **Dashboard Guru**: Informasi kelas dan mata pelajaran yang diampu
-- **Data Siswa**: Lihat siswa berdasarkan kelas wali
-- **Absensi Siswa**: Input kehadiran siswa
-- **Nilai Siswa**: Input dan kelola nilai berdasarkan mata pelajaran
+- **Dashboard**: Informasi kelas dan mata pelajaran
 - **Profil**: Kelola profil pribadi
+- **Data Siswa**: Lihat siswa dari kelas wali
+- **Absensi Siswa**: Input kehadiran siswa
+- **Nilai Siswa**: Input dan kelola nilai
 
 ### Website Publik
-- **Halaman Utama**: Informasi sekolah yang menarik
-- **Profil Sekolah**: Visi, misi, dan sejarah
+- **Beranda**: Informasi utama sekolah
+- **Profil**: Visi, misi, sejarah lengkap
 - **Galeri**: Dokumentasi kegiatan sekolah
 - **Kontak**: Informasi kontak dan lokasi
-- **Login**: Akses ke sistem manajemen
 
 ## Teknologi
 
@@ -35,35 +111,21 @@ Sistem manajemen sekolah berbasis web menggunakan PHP dan MySQL dengan dua peran
 - **Database**: MySQL
 - **Frontend**: Bootstrap 5, HTML5, CSS3, JavaScript
 - **Icons**: Font Awesome 6
-- **DataTables**: Untuk tabel interaktif
-- **Select2**: Untuk dropdown yang lebih baik
-
-## Struktur Database
-
-### Tabel Utama
-- `users` - Akun pengguna (admin/guru)
-- `teachers` - Data detail guru
-- `students` - Data siswa
-- `classes` - Data kelas dan wali kelas
-- `subjects` - Mata pelajaran
-- `attendances_teacher` - Absensi guru
-- `attendances_student` - Absensi siswa
-- `grades` - Nilai siswa
-- `school_profile` - Profil sekolah
-- `gallery` - Galeri foto
+- **DataTables**: Tabel interaktif
+- **Select2**: Dropdown enhancement
 
 ## Instalasi
 
-1. **Persiapkan Environment**
+1. **Setup Environment**
    ```bash
    # Pastikan PHP 8.2+ dan MySQL terinstall
    # Untuk XAMPP/LARAGON, aktifkan Apache dan MySQL
    ```
 
-2. **Clone/Download Project**
+2. **Clone Project**
    ```bash
-   # Download atau clone project ke folder web server
-   # Contoh: C:\xampp\htdocs\school-management
+   # Download project ke web server directory
+   # Contoh: C:\xampp\htdocs\school_management_system
    ```
 
 3. **Setup Database**
@@ -71,83 +133,71 @@ Sistem manajemen sekolah berbasis web menggunakan PHP dan MySQL dengan dua peran
    -- Buat database baru
    CREATE DATABASE school_management;
    
-   -- Import struktur database
+   -- Import schema
    -- Jalankan file database/init.sql
    ```
 
 4. **Konfigurasi Database**
    ```php
-   // Edit file config/database.php
-   $host = 'localhost';
-   $port = '3306';
-   $dbname = 'school_management';
-   $username = 'root';
-   $password = ''; // Sesuaikan dengan password MySQL Anda
+   // Edit file config/constants.php
+   define('DB_HOST', 'localhost');
+   define('DB_NAME', 'school_management');
+   define('DB_USER', 'root');
+   define('DB_PASS', ''); // Sesuaikan password MySQL
    ```
 
-5. **Akses Website**
-   ```
-   http://localhost/school-management/
+5. **Set Permissions**
+   ```bash
+   # Pastikan folder uploads/ writable
+   chmod 755 uploads/
+   chmod 755 uploads/teachers/
+   chmod 755 uploads/students/
+   chmod 755 uploads/gallery/
    ```
 
 ## Login Default
 
-### Admin
-- **Username**: `admin`
-- **Password**: `password`
+- **Admin**: username `admin`, password `password`
+- **Guru**: username `budi.santoso`, password `password`
 
-### Membuat Akun Guru
-Akun guru hanya dapat dibuat melalui admin panel.
+## Keamanan
 
-## Struktur Folder
+- **Authentication**: Role-based access control
+- **Authorization**: Pengecekan hak akses per halaman
+- **Input Sanitization**: Semua input difilter
+- **Password Hashing**: bcrypt encryption
+- **Session Management**: Timeout dan security
 
-```
-school-management/
-├── admin/                 # Admin panel
-│   ├── includes/         # Header, sidebar, footer admin
-│   ├── dashboard.php     # Dashboard admin
-│   ├── teachers.php      # Manajemen guru
-│   ├── students.php      # Manajemen siswa
-│   ├── classes.php       # Manajemen kelas
-│   ├── subjects.php      # Manajemen mata pelajaran
-│   ├── school_profile.php # Profil sekolah
-│   └── gallery.php       # Galeri
-├── teacher/              # Dashboard guru
-│   ├── includes/         # Header, sidebar, footer guru
-│   └── dashboard.php     # Dashboard guru
-├── assets/               # CSS, JS, gambar
-│   └── css/
-│       └── style.css     # Style utama
-├── config/               # Konfigurasi
-│   └── database.php      # Koneksi database
-├── includes/             # Fungsi umum
-│   └── functions.php     # Helper functions
-├── database/             # Database schema
-│   └── init.sql          # Struktur dan data awal
-├── index.php             # Halaman utama publik
-├── login.php             # Halaman login
-└── README.md             # Dokumentasi
-```
+## Data Dummy
 
-## Fitur Keamanan
+Sistem sudah include data dummy lengkap:
+- 6 guru dengan data realistis
+- 13 siswa across berbagai kelas
+- 9 kelas (X, XI, XII dengan IPA/IPS)
+- 12 mata pelajaran
+- Sample attendance dan grades
+- Profil sekolah lengkap
+- Galeri dengan foto sample
 
-- **Autentikasi**: Sistem login dengan session
-- **Otorisasi**: Role-based access control (Admin/Guru)
-- **Sanitasi Input**: Semua input difilter untuk mencegah XSS
-- **Password Hashing**: Password di-hash menggunakan PHP password_hash()
-- **SQL Injection Prevention**: Menggunakan prepared statements
+## Browser Support
 
-## Desain
-
-- **Tema**: Modern, elegant, professional
-- **Warna**: Putih-merah sebagai warna utama
-- **Responsive**: Mendukung desktop, tablet, dan mobile
-- **UX/UI**: Interface yang intuitif dan mudah digunakan
+- Chrome 90+
+- Firefox 88+
+- Safari 14+
+- Edge 90+
 
 ## Kontribusi
 
-Sistem ini dikembangkan sebagai solusi manajemen sekolah yang sederhana, aman, dan mudah digunakan. Cocok untuk SMA/SMK yang membutuhkan sistem digitalisasi data sekolah.
+1. Fork project
+2. Create feature branch
+3. Commit changes
+4. Push to branch
+5. Create Pull Request
 
 ## Lisensi
 
 MIT License - Bebas digunakan untuk keperluan pendidikan dan komersial.
+
+## Support
+
+Untuk pertanyaan dan dukungan teknis, silakan buat issue di repository ini.

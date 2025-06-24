@@ -15,14 +15,14 @@
             </li>
             
             <li class="nav-item">
-                <a class="nav-link <?= basename($_SERVER['PHP_SELF']) == 'teachers.php' ? 'active' : '' ?>" href="teachers.php">
+                <a class="nav-link <?= basename($_SERVER['PHP_SELF']) == 'manage.php' && strpos($_SERVER['REQUEST_URI'], 'teachers') !== false ? 'active' : '' ?>" href="teachers/manage.php">
                     <i class="fas fa-chalkboard-teacher"></i>
                     Data Guru
                 </a>
             </li>
             
             <li class="nav-item">
-                <a class="nav-link <?= basename($_SERVER['PHP_SELF']) == 'students.php' ? 'active' : '' ?>" href="students.php">
+                <a class="nav-link <?= basename($_SERVER['PHP_SELF']) == 'manage.php' && strpos($_SERVER['REQUEST_URI'], 'students') !== false ? 'active' : '' ?>" href="students/manage.php">
                     <i class="fas fa-user-graduate"></i>
                     Data Siswa
                 </a>
@@ -35,21 +35,21 @@
             </li>
             
             <li class="nav-item">
-                <a class="nav-link <?= basename($_SERVER['PHP_SELF']) == 'classes.php' ? 'active' : '' ?>" href="classes.php">
+                <a class="nav-link <?= basename($_SERVER['PHP_SELF']) == 'manage.php' && strpos($_SERVER['REQUEST_URI'], 'classes') !== false ? 'active' : '' ?>" href="classes/manage.php">
                     <i class="fas fa-school"></i>
                     Data Kelas
                 </a>
             </li>
             
             <li class="nav-item">
-                <a class="nav-link <?= basename($_SERVER['PHP_SELF']) == 'subjects.php' ? 'active' : '' ?>" href="subjects.php">
+                <a class="nav-link <?= basename($_SERVER['PHP_SELF']) == 'manage.php' && strpos($_SERVER['REQUEST_URI'], 'subjects') !== false ? 'active' : '' ?>" href="subjects/manage.php">
                     <i class="fas fa-book"></i>
                     Mata Pelajaran
                 </a>
             </li>
             
             <li class="nav-item">
-                <a class="nav-link <?= basename($_SERVER['PHP_SELF']) == 'attendance_teacher.php' ? 'active' : '' ?>" href="attendance_teacher.php">
+                <a class="nav-link <?= basename($_SERVER['PHP_SELF']) == 'teacher.php' ? 'active' : '' ?>" href="attendance/teacher.php">
                     <i class="fas fa-clock"></i>
                     Absensi Guru
                 </a>
@@ -69,7 +69,7 @@
             </li>
             
             <li class="nav-item">
-                <a class="nav-link <?= basename($_SERVER['PHP_SELF']) == 'gallery.php' ? 'active' : '' ?>" href="gallery.php">
+                <a class="nav-link <?= basename($_SERVER['PHP_SELF']) == 'manage.php' && strpos($_SERVER['REQUEST_URI'], 'gallery') !== false ? 'active' : '' ?>" href="gallery/manage.php">
                     <i class="fas fa-images"></i>
                     Galeri
                 </a>
@@ -82,7 +82,7 @@
             </li>
             
             <li class="nav-item">
-                <a class="nav-link <?= basename($_SERVER['PHP_SELF']) == 'users.php' ? 'active' : '' ?>" href="users.php">
+                <a class="nav-link <?= basename($_SERVER['PHP_SELF']) == 'manage.php' && strpos($_SERVER['REQUEST_URI'], 'users') !== false ? 'active' : '' ?>" href="users/manage.php">
                     <i class="fas fa-users"></i>
                     Manajemen User
                 </a>

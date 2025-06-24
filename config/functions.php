@@ -1,5 +1,10 @@
 <?php
-session_start();
+// Common functions for the School Management System
+require_once __DIR__ . '/constants.php';
+
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 function checkLogin() {
     if (!isset($_SESSION['user_id'])) {
