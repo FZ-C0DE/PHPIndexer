@@ -1,9 +1,8 @@
 <?php
-require_once '../includes/functions.php';
+require_once '../includes/auth-check.php';
 require_once '../config/database.php';
 
-checkLogin();
-checkRole('admin');
+requireRole('admin');
 
 $error = '';
 $success = '';
@@ -55,9 +54,23 @@ $page_title = 'Profil Sekolah';
 include 'includes/header.php';
 ?>
 
-<div class="container-fluid">
+<div class="main-content">
     <div class="row">
-        <?php include 'includes/sidebar.php'; ?>
+        <style>
+body {
+    background-color: #f8f9fa;
+    font-family: 'Inter', sans-serif;
+}
+
+.main-content {
+    margin-left: 250px;
+    padding: 2rem;
+    margin-top: 60px;
+    min-height: calc(100vh - 60px);
+}
+</style>
+
+<?php include 'includes/sidebar.php'; ?>
         
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
@@ -159,5 +172,19 @@ include 'includes/header.php';
         </main>
     </div>
 </div>
+
+<style>
+body {
+    background-color: #f8f9fa;
+    font-family: 'Inter', sans-serif;
+}
+
+.main-content {
+    margin-left: 250px;
+    padding: 2rem;
+    margin-top: 60px;
+    min-height: calc(100vh - 60px);
+}
+</style>
 
 <?php include 'includes/footer.php'; ?>

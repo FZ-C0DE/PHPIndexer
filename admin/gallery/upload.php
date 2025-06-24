@@ -7,178 +7,334 @@ requireRole('admin');
 $error = '';
 $success = '';
 
-// Handle form submission
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+// Handle file upload
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['images'])) {
+    $upload_dir = '../../uploads/gallery/';
+    
+    // Create directory if it doesn't exist
+    if (!is_dir($upload_dir)) {
+        mkdir($upload_dir, 0755, true);
+    }
+    
     $title = sanitize($_POST['title']);
     $description = sanitize($_POST['description']);
     $category = $_POST['category'];
     $is_featured = isset($_POST['is_featured']) ? 1 : 0;
     
-    // Handle file upload
-    if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
-        $upload_dir = '../../uploads/gallery/';
-        $file_name = $_FILES['image']['name'];
-        $file_tmp = $_FILES['image']['tmp_name'];
-        $file_size = $_FILES['image']['size'];
-        $file_ext = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
-        
-        // Validate file
-        $allowed_types = ['jpg', 'jpeg', 'png', 'gif'];
-        if (!in_array($file_ext, $allowed_types)) {
-            $error = 'Format file tidak didukung. Gunakan JPG, PNG, atau GIF.';
-        } elseif ($file_size > MAX_FILE_SIZE) {
-            $error = 'Ukuran file terlalu besar. Maksimal 5MB.';
-        } else {
+    $uploaded_files = [];
+    $errors = [];
+    
+    foreach ($_FILES['images']['tmp_name'] as $key => $tmp_name) {
+        if ($_FILES['images']['error'][$key] === UPLOAD_ERR_OK) {
+            $file_name = $_FILES['images']['name'][$key];
+            $file_size = $_FILES['images']['size'][$key];
+            $file_ext = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
+            
+            // Validate file type
+            $allowed_types = ['jpg', 'jpeg', 'png', 'gif'];
+            if (!in_array($file_ext, $allowed_types)) {
+                $errors[] = "File $file_name: Tipe file tidak diizinkan";
+                continue;
+            }
+            
+            // Validate file size (5MB max)
+            if ($file_size > 5 * 1024 * 1024) {
+                $errors[] = "File $file_name: Ukuran file terlalu besar (max 5MB)";
+                continue;
+            }
+            
             // Generate unique filename
             $new_filename = uniqid() . '_' . time() . '.' . $file_ext;
             $upload_path = $upload_dir . $new_filename;
             
-            if (move_uploaded_file($file_tmp, $upload_path)) {
-                $image_url = '../uploads/gallery/' . $new_filename;
-                
-                try {
-                    $stmt = $pdo->prepare("INSERT INTO gallery (title, description, image_url, category, is_featured) VALUES (?, ?, ?, ?, ?)");
-                    $stmt->execute([$title, $description, $image_url, $category, $is_featured]);
-                    $success = 'Foto berhasil diupload ke galeri';
-                } catch(PDOException $e) {
-                    unlink($upload_path); // Delete uploaded file if database insert fails
-                    $error = 'Gagal menyimpan data ke database: ' . $e->getMessage();
-                }
+            if (move_uploaded_file($tmp_name, $upload_path)) {
+                $uploaded_files[] = [
+                    'filename' => $new_filename,
+                    'path' => 'uploads/gallery/' . $new_filename
+                ];
             } else {
-                $error = 'Gagal mengupload file';
+                $errors[] = "Gagal mengupload file $file_name";
             }
         }
-    } else {
-        $error = 'Pilih file foto yang akan diupload';
+    }
+    
+    // Save to database
+    if (!empty($uploaded_files)) {
+        try {
+            foreach ($uploaded_files as $file) {
+                $stmt = $pdo->prepare("INSERT INTO gallery (title, description, image_url, category, is_featured, created_at) VALUES (?, ?, ?, ?, ?, NOW())");
+                $stmt->execute([$title, $description, $file['path'], $category, $is_featured]);
+            }
+            
+            $success = count($uploaded_files) . ' foto berhasil diupload';
+        } catch(PDOException $e) {
+            $error = 'Gagal menyimpan ke database: ' . $e->getMessage();
+        }
+    }
+    
+    if (!empty($errors)) {
+        $error = implode('<br>', $errors);
     }
 }
 
 $page_title = 'Upload Galeri';
-$custom_css = '../../assets/css/admin/dashboard.css';
 include '../../includes/header.php';
 ?>
 
-<?php include '../includes/navbar-admin.php'; ?>
+<style>
+body {
+    background-color: #f8f9fa;
+    font-family: 'Inter', sans-serif;
+}
 
-<div class="container-fluid" style="margin-top: 80px;">
-    <div class="row">
-        <div class="col-12">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h2>Upload Foto Galeri</h2>
-                <a href="manage.php" class="btn btn-outline-secondary">
-                    <i class="fas fa-arrow-left me-1"></i>Kembali ke Galeri
-                </a>
+.main-content {
+    margin-left: 250px;
+    padding: 2rem;
+    margin-top: 60px;
+    min-height: calc(100vh - 60px);
+}
+
+.page-header {
+    background: linear-gradient(135deg, #e83e8c 0%, #fd7e14 100%);
+    color: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.upload-area {
+    border: 2px dashed #dee2e6;
+    border-radius: 0.5rem;
+    padding: 3rem;
+    text-align: center;
+    background-color: #f8f9fa;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.upload-area:hover {
+    border-color: #e83e8c;
+    background-color: #fff;
+}
+
+.upload-area.dragover {
+    border-color: #e83e8c;
+    background-color: #fff5f5;
+}
+
+.file-preview {
+    display: none;
+    margin-top: 1rem;
+}
+
+.preview-item {
+    display: inline-block;
+    margin: 0.5rem;
+    position: relative;
+}
+
+.preview-img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 0.25rem;
+    border: 2px solid #dee2e6;
+}
+
+.remove-file {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    font-size: 12px;
+    cursor: pointer;
+}
+</style>
+
+<?php include '../includes/sidebar.php'; ?>
+
+<div class="main-content">
+    <div class="page-header">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <h2 class="mb-1">
+                    <i class="fas fa-cloud-upload-alt me-2"></i>Upload Foto Galeri
+                </h2>
+                <p class="mb-0 opacity-75">Upload foto untuk galeri sekolah</p>
             </div>
+            <a href="manage.php" class="btn btn-light btn-lg">
+                <i class="fas fa-arrow-left me-2"></i>Kembali ke Galeri
+            </a>
+        </div>
+    </div>
 
-            <?php if ($error): ?>
-                <div class="alert alert-danger">
-                    <i class="fas fa-exclamation-circle me-2"></i><?= $error ?>
-                </div>
-            <?php endif; ?>
-            
-            <?php if ($success): ?>
-                <div class="alert alert-success">
-                    <i class="fas fa-check-circle me-2"></i><?= $success ?>
-                    <div class="mt-2">
-                        <a href="manage.php" class="btn btn-sm btn-success">Lihat Galeri</a>
-                        <button type="button" class="btn btn-sm btn-outline-success" onclick="location.reload()">Upload Lagi</button>
+    <?php if ($error): ?>
+        <div class="alert alert-danger alert-dismissible fade show">
+            <i class="fas fa-exclamation-circle me-2"></i><?= $error ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    <?php endif; ?>
+    
+    <?php if ($success): ?>
+        <div class="alert alert-success alert-dismissible fade show">
+            <i class="fas fa-check-circle me-2"></i><?= $success ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    <?php endif; ?>
+
+    <div class="card">
+        <div class="card-body">
+            <form method="POST" enctype="multipart/form-data" id="uploadForm">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="title" class="form-label">Judul Foto *</label>
+                        <input type="text" class="form-control" id="title" name="title" required>
+                    </div>
+                    
+                    <div class="col-md-6 mb-3">
+                        <label for="category" class="form-label">Kategori *</label>
+                        <select class="form-select" id="category" name="category" required>
+                            <option value="">Pilih Kategori</option>
+                            <option value="general">Umum</option>
+                            <option value="activities">Kegiatan</option>
+                            <option value="facilities">Fasilitas</option>
+                            <option value="achievements">Prestasi</option>
+                            <option value="events">Acara</option>
+                        </select>
                     </div>
                 </div>
-            <?php endif; ?>
-
-            <div class="card">
-                <div class="card-header">
-                    <i class="fas fa-cloud-upload-alt me-2"></i>Form Upload Foto
+                
+                <div class="mb-3">
+                    <label for="description" class="form-label">Deskripsi</label>
+                    <textarea class="form-control" id="description" name="description" rows="3"></textarea>
                 </div>
-                <div class="card-body">
-                    <form method="POST" enctype="multipart/form-data">
-                        <div class="row">
-                            <div class="col-md-8">
-                                <div class="mb-3">
-                                    <label for="title" class="form-label">Judul Foto *</label>
-                                    <input type="text" class="form-control" id="title" name="title" required>
-                                </div>
-                                
-                                <div class="mb-3">
-                                    <label for="description" class="form-label">Deskripsi</label>
-                                    <textarea class="form-control" id="description" name="description" rows="3"></textarea>
-                                </div>
-                                
-                                <div class="row">
-                                    <div class="col-md-6 mb-3">
-                                        <label for="category" class="form-label">Kategori *</label>
-                                        <select class="form-select" id="category" name="category" required>
-                                            <option value="">Pilih Kategori</option>
-                                            <option value="general">Umum</option>
-                                            <option value="activities">Kegiatan</option>
-                                            <option value="facilities">Fasilitas</option>
-                                            <option value="achievements">Prestasi</option>
-                                            <option value="events">Acara</option>
-                                        </select>
-                                    </div>
-                                    
-                                    <div class="col-md-6 mb-3">
-                                        <label class="form-label">&nbsp;</label>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="is_featured" name="is_featured">
-                                            <label class="form-check-label" for="is_featured">
-                                                <i class="fas fa-star text-warning me-1"></i>Jadikan Foto Unggulan
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="col-md-4">
-                                <div class="mb-3">
-                                    <label for="image" class="form-label">File Foto *</label>
-                                    <input type="file" class="form-control" id="image" name="image" accept="image/*" required>
-                                    <div class="form-text">
-                                        <small>
-                                            • Format: JPG, PNG, GIF<br>
-                                            • Maksimal: 5MB<br>
-                                            • Resolusi disarankan: 800x600px
-                                        </small>
-                                    </div>
-                                </div>
-                                
-                                <div id="imagePreview" class="mt-3" style="display: none;">
-                                    <img id="preview" src="" alt="Preview" class="img-fluid rounded" style="max-height: 200px;">
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="d-flex justify-content-between">
-                            <a href="manage.php" class="btn btn-outline-secondary">Batal</a>
-                            <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-cloud-upload-alt me-1"></i>Upload Foto
-                            </button>
-                        </div>
-                    </form>
+                
+                <div class="mb-3">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="is_featured" name="is_featured">
+                        <label class="form-check-label" for="is_featured">
+                            <i class="fas fa-star text-warning me-1"></i>Jadikan foto unggulan
+                        </label>
+                    </div>
                 </div>
-            </div>
+                
+                <div class="mb-4">
+                    <label class="form-label">Upload Foto *</label>
+                    <div class="upload-area" id="uploadArea">
+                        <i class="fas fa-cloud-upload-alt fa-3x text-muted mb-3"></i>
+                        <h5>Drag & Drop foto di sini</h5>
+                        <p class="text-muted">atau klik untuk memilih file</p>
+                        <p class="small text-muted">Format: JPG, PNG, GIF (Maksimal 5MB per file)</p>
+                        <input type="file" id="fileInput" name="images[]" multiple accept="image/*" style="display: none;">
+                    </div>
+                    
+                    <div id="filePreview" class="file-preview"></div>
+                </div>
+                
+                <div class="d-flex justify-content-between">
+                    <a href="manage.php" class="btn btn-outline-secondary">
+                        <i class="fas fa-times me-1"></i>Batal
+                    </a>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-upload me-1"></i>Upload Foto
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
 
 <script>
-// Image preview
-document.getElementById('image').addEventListener('change', function(e) {
-    const file = e.target.files[0];
-    if (file) {
+document.addEventListener('DOMContentLoaded', function() {
+    const uploadArea = document.getElementById('uploadArea');
+    const fileInput = document.getElementById('fileInput');
+    const filePreview = document.getElementById('filePreview');
+    let selectedFiles = [];
+
+    // Click to select files
+    uploadArea.addEventListener('click', () => fileInput.click());
+
+    // Drag and drop functionality
+    uploadArea.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        uploadArea.classList.add('dragover');
+    });
+
+    uploadArea.addEventListener('dragleave', () => {
+        uploadArea.classList.remove('dragover');
+    });
+
+    uploadArea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        uploadArea.classList.remove('dragover');
+        
+        const files = Array.from(e.dataTransfer.files);
+        handleFiles(files);
+    });
+
+    // File input change
+    fileInput.addEventListener('change', (e) => {
+        const files = Array.from(e.target.files);
+        handleFiles(files);
+    });
+
+    function handleFiles(files) {
+        files.forEach(file => {
+            if (file.type.startsWith('image/')) {
+                selectedFiles.push(file);
+                createPreview(file);
+            }
+        });
+        
+        updateFileInput();
+        
+        if (selectedFiles.length > 0) {
+            filePreview.style.display = 'block';
+        }
+    }
+
+    function createPreview(file) {
         const reader = new FileReader();
-        reader.onload = function(e) {
-            document.getElementById('preview').src = e.target.result;
-            document.getElementById('imagePreview').style.display = 'block';
+        reader.onload = (e) => {
+            const previewItem = document.createElement('div');
+            previewItem.className = 'preview-item';
+            previewItem.innerHTML = `
+                <img src="${e.target.result}" class="preview-img" alt="Preview">
+                <button type="button" class="remove-file" onclick="removeFile('${file.name}')">×</button>
+                <div class="small text-center mt-1">${file.name}</div>
+            `;
+            filePreview.appendChild(previewItem);
         };
         reader.readAsDataURL(file);
-    } else {
-        document.getElementById('imagePreview').style.display = 'none';
+    }
+
+    window.removeFile = function(fileName) {
+        selectedFiles = selectedFiles.filter(file => file.name !== fileName);
+        updateFileInput();
+        refreshPreview();
+    }
+
+    function updateFileInput() {
+        const dt = new DataTransfer();
+        selectedFiles.forEach(file => dt.items.add(file));
+        fileInput.files = dt.files;
+    }
+
+    function refreshPreview() {
+        filePreview.innerHTML = '';
+        if (selectedFiles.length === 0) {
+            filePreview.style.display = 'none';
+        } else {
+            selectedFiles.forEach(file => createPreview(file));
+        }
     }
 });
 </script>
 
-<?php 
-$custom_js = '../../assets/js/admin/dashboard.js';
-include '../../includes/footer.php'; 
-?>
+<?php include '../../includes/footer.php'; ?>

@@ -15,21 +15,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = sanitize($_POST['email']);
     $full_name = sanitize($_POST['full_name']);
     $role = $_POST['role'];
+    $status = $_POST['status'];
     
     try {
         if ($action === 'add') {
             $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-            $stmt = $pdo->prepare("INSERT INTO users (username, email, password, role, full_name) VALUES (?, ?, ?, ?, ?)");
-            $stmt->execute([$username, $email, $password, $role, $full_name]);
+            $stmt = $pdo->prepare("INSERT INTO users (username, email, password, full_name, role, status) VALUES (?, ?, ?, ?, ?, ?)");
+            $stmt->execute([$username, $email, $password, $full_name, $role, $status]);
             $success = 'User berhasil ditambahkan';
         } else {
             if (!empty($_POST['password'])) {
                 $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-                $stmt = $pdo->prepare("UPDATE users SET username = ?, email = ?, password = ?, role = ?, full_name = ? WHERE id = ?");
-                $stmt->execute([$username, $email, $password, $role, $full_name, $user_id]);
+                $stmt = $pdo->prepare("UPDATE users SET username = ?, email = ?, password = ?, full_name = ?, role = ?, status = ? WHERE id = ?");
+                $stmt->execute([$username, $email, $password, $full_name, $role, $status, $user_id]);
             } else {
-                $stmt = $pdo->prepare("UPDATE users SET username = ?, email = ?, role = ?, full_name = ? WHERE id = ?");
-                $stmt->execute([$username, $email, $role, $full_name, $user_id]);
+                $stmt = $pdo->prepare("UPDATE users SET username = ?, email = ?, full_name = ?, role = ?, status = ? WHERE id = ?");
+                $stmt->execute([$username, $email, $full_name, $role, $status, $user_id]);
             }
             $success = 'User berhasil diperbarui';
         }
@@ -59,83 +60,91 @@ if ($action === 'edit' && $user_id) {
 }
 
 $page_title = ($action === 'add') ? 'Tambah User' : 'Edit User';
-$custom_css = '../../assets/css/admin/dashboard.css';
 include '../../includes/header.php';
 ?>
 
-<?php include '../includes/navbar-admin.php'; ?>
+<style>
+.main-content {
+    margin-left: 250px;
+    padding: 2rem;
+    margin-top: 60px;
+    min-height: calc(100vh - 60px);
+}
+</style>
 
-<div class="container-fluid" style="margin-top: 80px;">
-    <div class="row">
-        <div class="col-12">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h2><?= $page_title ?></h2>
-                <a href="manage.php" class="btn btn-outline-secondary">
-                    <i class="fas fa-arrow-left me-1"></i>Kembali
-                </a>
-            </div>
+<?php include '../includes/sidebar.php'; ?>
 
-            <?php if ($error): ?>
-                <div class="alert alert-danger">
-                    <i class="fas fa-exclamation-circle me-2"></i><?= $error ?>
+<div class="main-content">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><?= $page_title ?></h2>
+        <a href="manage.php" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left me-1"></i>Kembali
+        </a>
+    </div>
+
+    <?php if ($error): ?>
+        <div class="alert alert-danger">
+            <i class="fas fa-exclamation-circle me-2"></i><?= $error ?>
+        </div>
+    <?php endif; ?>
+
+    <div class="card">
+        <div class="card-body">
+            <form method="POST">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="username" class="form-label">Username *</label>
+                        <input type="text" class="form-control" id="username" name="username" 
+                               value="<?= htmlspecialchars($user['username'] ?? '') ?>" required>
+                    </div>
+                    
+                    <div class="col-md-6 mb-3">
+                        <label for="email" class="form-label">Email *</label>
+                        <input type="email" class="form-control" id="email" name="email" 
+                               value="<?= htmlspecialchars($user['email'] ?? '') ?>" required>
+                    </div>
                 </div>
-            <?php endif; ?>
-
-            <div class="card">
-                <div class="card-body">
-                    <form method="POST">
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="username" class="form-label">Username *</label>
-                                <input type="text" class="form-control" id="username" name="username" 
-                                       value="<?= htmlspecialchars($user['username'] ?? '') ?>" required>
-                            </div>
-                            
-                            <div class="col-md-6 mb-3">
-                                <label for="email" class="form-label">Email *</label>
-                                <input type="email" class="form-control" id="email" name="email" 
-                                       value="<?= htmlspecialchars($user['email'] ?? '') ?>" required>
-                            </div>
-                        </div>
-                        
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="password" class="form-label">
-                                    Password <?= $action === 'add' ? '*' : '(Kosongkan jika tidak diubah)' ?>
-                                </label>
-                                <input type="password" class="form-control" id="password" name="password" 
-                                       <?= $action === 'add' ? 'required' : '' ?>>
-                            </div>
-                            
-                            <div class="col-md-6 mb-3">
-                                <label for="role" class="form-label">Role *</label>
-                                <select class="form-select" id="role" name="role" required>
-                                    <option value="admin" <?= ($user['role'] ?? '') == 'admin' ? 'selected' : '' ?>>Admin</option>
-                                    <option value="teacher" <?= ($user['role'] ?? '') == 'teacher' ? 'selected' : '' ?>>Teacher</option>
-                                </select>
-                            </div>
-                        </div>
-                        
-                        <div class="mb-3">
-                            <label for="full_name" class="form-label">Nama Lengkap *</label>
-                            <input type="text" class="form-control" id="full_name" name="full_name" 
-                                   value="<?= htmlspecialchars($user['full_name'] ?? '') ?>" required>
-                        </div>
-                        
-                        <div class="d-flex justify-content-between">
-                            <a href="manage.php" class="btn btn-outline-secondary">Batal</a>
-                            <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-save me-1"></i>Simpan
-                            </button>
-                        </div>
-                    </form>
+                
+                <div class="mb-3">
+                    <label for="full_name" class="form-label">Nama Lengkap *</label>
+                    <input type="text" class="form-control" id="full_name" name="full_name" 
+                           value="<?= htmlspecialchars($user['full_name'] ?? '') ?>" required>
                 </div>
-            </div>
+                
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="password" class="form-label">Password <?= $action === 'add' ? '*' : '(kosongkan jika tidak diubah)' ?></label>
+                        <input type="password" class="form-control" id="password" name="password" 
+                               <?= $action === 'add' ? 'required' : '' ?>>
+                    </div>
+                    
+                    <div class="col-md-3 mb-3">
+                        <label for="role" class="form-label">Role *</label>
+                        <select class="form-select" id="role" name="role" required>
+                            <option value="">Pilih Role</option>
+                            <option value="admin" <?= ($user['role'] ?? '') == 'admin' ? 'selected' : '' ?>>Admin</option>
+                            <option value="teacher" <?= ($user['role'] ?? '') == 'teacher' ? 'selected' : '' ?>>Teacher</option>
+                        </select>
+                    </div>
+                    
+                    <div class="col-md-3 mb-3">
+                        <label for="status" class="form-label">Status *</label>
+                        <select class="form-select" id="status" name="status" required>
+                            <option value="active" <?= ($user['status'] ?? 'active') == 'active' ? 'selected' : '' ?>>Aktif</option>
+                            <option value="inactive" <?= ($user['status'] ?? '') == 'inactive' ? 'selected' : '' ?>>Tidak Aktif</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="d-flex justify-content-between">
+                    <a href="manage.php" class="btn btn-outline-secondary">Batal</a>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save me-1"></i>Simpan
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
 
-<?php 
-$custom_js = '../../assets/js/admin/dashboard.js';
-include '../../includes/footer.php'; 
-?>
+<?php include '../../includes/footer.php'; ?>
