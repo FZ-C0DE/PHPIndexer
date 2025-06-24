@@ -28,17 +28,38 @@
                 </a>
             </li>
             
-            <li class="nav-item">
-                <a class="nav-link <?= basename($_SERVER['PHP_SELF']) == 'manage.php' && strpos($_SERVER['REQUEST_URI'], 'grades') !== false ? 'active' : '' ?>" href="grades/manage.php">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="collapse" data-bs-target="#gradesMenu">
                     <i class="fas fa-star"></i>
                     Nilai Siswa
                 </a>
+                <div class="collapse" id="gradesMenu">
+                    <ul class="nav flex-column ms-3">
+                        <li class="nav-item">
+                            <a class="nav-link" href="grades/manage.php">
+                                <i class="fas fa-list"></i> Lihat Nilai
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="grades/input.php">
+                                <i class="fas fa-edit"></i> Input Nilai
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </li>
             
             <li class="nav-item">
                 <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted text-uppercase">
                     <span>Profil</span>
                 </h6>
+            </li>
+            
+            <li class="nav-item">
+                <a class="nav-link <?= basename($_SERVER['PHP_SELF']) == 'my-subjects.php' ? 'active' : '' ?>" href="subjects/my-subjects.php">
+                    <i class="fas fa-book"></i>
+                    Mata Pelajaran Saya
+                </a>
             </li>
             
             <li class="nav-item">

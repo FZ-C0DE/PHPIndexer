@@ -68,11 +68,25 @@
                 </a>
             </li>
             
-            <li class="nav-item">
-                <a class="nav-link <?= basename($_SERVER['PHP_SELF']) == 'manage.php' && strpos($_SERVER['REQUEST_URI'], 'gallery') !== false ? 'active' : '' ?>" href="gallery/manage.php">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="collapse" data-bs-target="#galleryMenu">
                     <i class="fas fa-images"></i>
                     Galeri
                 </a>
+                <div class="collapse" id="galleryMenu">
+                    <ul class="nav flex-column ms-3">
+                        <li class="nav-item">
+                            <a class="nav-link" href="gallery/manage.php">
+                                <i class="fas fa-list"></i> Kelola Galeri
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="gallery/upload.php">
+                                <i class="fas fa-cloud-upload-alt"></i> Upload Foto
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </li>
             
             <li class="nav-item">
