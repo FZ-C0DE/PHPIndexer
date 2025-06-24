@@ -1,13 +1,13 @@
 <?php
-// Database configuration
-$host = $_ENV['PGHOST'] ?? 'localhost';
-$port = $_ENV['PGPORT'] ?? '5432';
-$dbname = $_ENV['PGDATABASE'] ?? 'school_management';
-$username = $_ENV['PGUSER'] ?? 'postgres';
-$password = $_ENV['PGPASSWORD'] ?? '';
+// Database configuration for MySQL
+$host = 'localhost';
+$port = '3306';
+$dbname = 'school_management';
+$username = 'root';
+$password = '';
 
 try {
-    $pdo = new PDO("pgsql:host=$host;port=$port;dbname=$dbname", $username, $password);
+    $pdo = new PDO("mysql:host=$host;port=$port;dbname=$dbname;charset=utf8mb4", $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
 } catch(PDOException $e) {
