@@ -1,0 +1,5 @@
+modules = ["php-8.2"]
+
+[[ports]]
+localPort = 8000
+externalPort = 80
