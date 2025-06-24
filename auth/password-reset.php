@@ -94,7 +94,7 @@ include '../includes/header.php';
         
         <div class="text-center mt-3">
             <small class="text-muted">
-                <a href="../public/index.php" class="text-decoration-none">
+                <a href="../index.php" class="text-decoration-none">
                     <i class="fas fa-home me-1"></i>Kembali ke Beranda
                 </a>
             </small>

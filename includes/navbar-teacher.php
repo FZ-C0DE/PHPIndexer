@@ -24,7 +24,7 @@
                             <i class="fas fa-book me-2"></i>Mata Pelajaran Saya
                         </a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="../public/index.php" target="_blank">
+                        <li><a class="dropdown-item" href="../index.php" target="_blank">
                             <i class="fas fa-external-link-alt me-2"></i>Lihat Website
                         </a></li>
                         <li><hr class="dropdown-divider"></li>

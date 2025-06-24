@@ -64,10 +64,10 @@ school_management_system/
 │       ├── sidebar.php
 │       └── footer.php
 ├── public/                    # Website publik
-│   ├── index.php
 │   ├── about.php
 │   ├── gallery.php
 │   └── contact.php
+├── index.php                  # Homepage utama
 ├── auth/                      # Autentikasi
 │   ├── login.php
 │   └── logout.php

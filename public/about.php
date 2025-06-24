@@ -158,7 +158,7 @@ try {
                 <div class="col-lg-4 mb-4">
                     <h5>Menu</h5>
                     <ul class="list-unstyled">
-                        <li><a href="index.php">Beranda</a></li>
+                        <li><a href="../index.php">Beranda</a></li>
                         <li><a href="about.php">Profil</a></li>
                         <li><a href="gallery.php">Galeri</a></li>
                         <li><a href="contact.php">Kontak</a></li>

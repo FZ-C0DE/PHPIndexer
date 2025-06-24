@@ -124,7 +124,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 
                 <div class="text-center">
                     <small class="text-muted">
-                        <a href="../public/index.php" class="text-decoration-none">
+                        <a href="../index.php" class="text-decoration-none">
                             <i class="fas fa-arrow-left me-1"></i>Kembali ke Beranda
                         </a>
                     </small>
