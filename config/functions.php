@@ -13,20 +13,7 @@ function checkLogin() {
     }
 }
 
-function checkRole($required_role) {
-    if ($_SESSION['role'] !== $required_role) {
-        header("Location: unauthorized.php");
-        exit();
-    }
-}
-
-function isAdmin() {
-    return isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
-}
-
-function isTeacher() {
-    return isset($_SESSION['role']) && $_SESSION['role'] === 'teacher';
-}
+// Role checking functions are now in includes/auth-check.php
 
 function sanitize($data) {
     return htmlspecialchars(strip_tags(trim($data)));
