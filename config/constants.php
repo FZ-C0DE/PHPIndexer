@@ -1,5 +1,6 @@
+
 <?php
-// Database Configuration
+// Database Configuration for XAMPP
 define('DB_HOST', 'localhost');
 define('DB_PORT', '3306');
 define('DB_NAME', 'school_management');
@@ -9,10 +10,10 @@ define('DB_PASS', '');
 // Application Configuration
 define('APP_NAME', 'Sistem Manajemen Sekolah');
 define('APP_VERSION', '1.0.0');
-define('APP_URL', 'http://localhost:8000');
+define('APP_URL', 'http://localhost/projectAi/PHPIndexer');
 
-// Path Configuration
-define('BASE_PATH', dirname(__DIR__));
+// Path Configuration for XAMPP
+define('BASE_PATH', $_SERVER['DOCUMENT_ROOT'] . '/projectAi/PHPIndexer');
 define('UPLOAD_PATH', BASE_PATH . '/uploads/');
 define('ASSETS_PATH', BASE_PATH . '/assets/');
 
