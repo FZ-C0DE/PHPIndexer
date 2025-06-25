@@ -51,11 +51,6 @@ function requireRole($required_role) {
     }
 }
 
-// Check if user has student role
-function isStudent() {
-    return isset($_SESSION['role']) && $_SESSION['role'] === 'student';
-}
-
 /**
  * Format date for display
  */
