@@ -67,9 +67,22 @@ body {
 .main-content {
     margin-left: 0;
     padding: 20px;
-    min-height: 100vh;
+    min-height: calc(100vh - 76px);
     background: var(--gray-50);
     overflow-x: hidden;
+    width: 100%;
+}
+
+/* Ensure content fits properly */
+.container-fluid .row {
+    margin: 0;
+    padding: 0;
+}
+
+.col-md-9, .col-lg-10 {
+    padding-left: 0;
+    padding-right: 15px;
+    max-width: 100%;
 }
 
 /* Responsive layout */

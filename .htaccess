@@ -4,12 +4,6 @@ RewriteEngine On
 # Set base directory for XAMPP
 RewriteBase /projectAi/PHPIndexer/
 
-# Redirect to index.php if file doesn't exist
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_URI} !^/projectAi/PHPIndexer/(auth|admin|student|teacher|public|assets|uploads)/
-RewriteRule ^(.*)$ index.php [QSA,L]
-
 # Security headers
 <IfModule mod_headers.c>
     Header always set X-Content-Type-Options nosniff
@@ -17,7 +11,7 @@ RewriteRule ^(.*)$ index.php [QSA,L]
     Header always set X-XSS-Protection "1; mode=block"
 </IfModule>
 
-# PHP settings
+# PHP settings for XAMPP
 <IfModule mod_php.c>
     php_value display_errors 1
     php_value error_reporting E_ALL
@@ -36,6 +30,35 @@ RewriteRule ^(.*)$ index.php [QSA,L]
 ErrorDocument 404 /projectAi/PHPIndexer/404.php
 ErrorDocument 403 /projectAi/PHPIndexer/403.php
 
+# Hide sensitive files
+<Files ~ "^\.">
+    Order allow,deny
+    Deny from all
+</Files>
+
+<Files ~ "\.sql$">
+    Order allow,deny
+    Deny from all
+</Files>
+
+# URL Redirects for cleaner URLs
+RewriteRule ^admin/?$ admin/dashboard.php [L]
+RewriteRule ^teacher/?$ teacher/dashboard.php [L]
+RewriteRule ^student/?$ student/dashboard.php [L]
+RewriteRule ^login/?$ auth/login.php [L]
+RewriteRule ^logout/?$ auth/logout.php [L]
+
+# Allow access to static assets
+<FilesMatch "\.(css|js|png|jpg|jpeg|gif|ico|woff|woff2|ttf|eot|svg)$">
+    Allow from all
+</FilesMatch>
+
+# Redirect to index.php if file doesn't exist
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} !^/projectAi/PHPIndexer/(auth|admin|student|teacher|public|assets|uploads)/
+RewriteRule ^(.*)$ index.php [QSA,L]
+
 <IfModule mod_headers.c>
     # Prevent clickjacking
     Header always append X-Frame-Options SAMEORIGIN
@@ -52,17 +75,6 @@ ErrorDocument 403 /projectAi/PHPIndexer/403.php
     # Content security policy (adjust as needed)
     Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' cdn.jsdelivr.net code.jquery.com cdn.datatables.net; style-src 'self' 'unsafe-inline' cdn.jsdelivr.net fonts.googleapis.com; font-src 'self' fonts.gstatic.com; img-src 'self' data: images.unsplash.com via.placeholder.com;"
 </IfModule>
-
-# Hide sensitive files
-<Files ~ "^\.">
-    Order allow,deny
-    Deny from all
-</Files>
-
-<Files ~ "\.sql$">
-    Order allow,deny
-    Deny from all
-</Files>
 
 <Files ~ "config\.php$">
     Order allow,deny
@@ -132,12 +144,6 @@ ErrorDocument 403 /projectAi/PHPIndexer/403.php
     ExpiresByType application/xhtml+xml "access plus 1 day"
 </IfModule>
 
-# URL Redirects for cleaner URLs (simplified)
-RewriteRule ^admin/?$ admin/dashboard.php [L]
-RewriteRule ^teacher/?$ teacher/dashboard.php [L]
-RewriteRule ^login/?$ auth/login.php [L]
-RewriteRule ^logout/?$ auth/logout.php [L]
-
 # PHP Settings
 <IfModule mod_php7.c>
     php_value upload_max_filesize 5M
@@ -150,8 +156,3 @@ RewriteRule ^logout/?$ auth/logout.php [L]
 
 # Disable server signature
 ServerSignature Off
-
-# Allow access to static assets
-<FilesMatch "\.(css|js|png|jpg|jpeg|gif|ico|woff|woff2|ttf|eot|svg)$">
-    Allow from all
-</FilesMatch>

@@ -1,109 +1,67 @@
-<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar collapse">
+<nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-white sidebar shadow-sm">
     <div class="position-sticky pt-3">
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a class="nav-link <?= basename($_SERVER['PHP_SELF']) == 'dashboard.php' ? 'active' : '' ?>" href="dashboard.php">
-                    <i class="fas fa-tachometer-alt"></i>
-                    Dashboard
+                <a class="nav-link <?= (basename($_SERVER['PHP_SELF']) == 'dashboard.php') ? 'active' : '' ?>" 
+                   href="../dashboard.php">
+                    <i class="fas fa-tachometer-alt me-2"></i>Dashboard
                 </a>
             </li>
-            
+
             <li class="nav-item">
-                <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted text-uppercase">
-                    <span>Pembelajaran</span>
-                </h6>
+                <a class="nav-link" href="../classes/my-class.php">
+                    <i class="fas fa-door-open me-2"></i>Kelas Saya
+                </a>
             </li>
-            
+
             <li class="nav-item">
-                <a class="nav-link <?= basename($_SERVER['PHP_SELF']) == 'my-class.php' ? 'active' : '' ?>" href="classes/my-class.php">
-                    <i class="fas fa-user-graduate"></i>
-                    Data Siswa
+                <a class="nav-link" href="../subjects/my-subjects.php">
+                    <i class="fas fa-book me-2"></i>Mata Pelajaran
                 </a>
             </li>
-            
+
             <li class="nav-item">
-                <a class="nav-link <?= basename($_SERVER['PHP_SELF']) == 'student.php' ? 'active' : '' ?>" href="attendance/student.php">
-                    <i class="fas fa-clock"></i>
-                    Absensi Siswa
+                <a class="nav-link" data-bs-toggle="collapse" href="#gradesCollapse" role="button">
+                    <i class="fas fa-chart-line me-2"></i>Nilai
+                    <i class="fas fa-chevron-down ms-auto"></i>
                 </a>
-            </li>
-            
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="collapse" data-bs-target="#gradesMenu">
-                    <i class="fas fa-star"></i>
-                    Nilai Siswa
-                </a>
-                <div class="collapse" id="gradesMenu">
+                <div class="collapse" id="gradesCollapse">
                     <ul class="nav flex-column ms-3">
                         <li class="nav-item">
-                            <a class="nav-link" href="grades/manage.php">
-                                <i class="fas fa-list"></i> Lihat Nilai
+                            <a class="nav-link" href="../grades/input.php">
+                                <i class="fas fa-edit me-2"></i>Input Nilai
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="grades/input.php">
-                                <i class="fas fa-edit"></i> Input Nilai
+                            <a class="nav-link" href="../grades/manage.php">
+                                <i class="fas fa-list me-2"></i>Kelola Nilai
                             </a>
                         </li>
                     </ul>
                 </div>
             </li>
-            
+
             <li class="nav-item">
-                <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted text-uppercase">
-                    <span>Profil</span>
-                </h6>
-            </li>
-            
-            <li class="nav-item">
-                <a class="nav-link <?= basename($_SERVER['PHP_SELF']) == 'my-subjects.php' ? 'active' : '' ?>" href="subjects/my-subjects.php">
-                    <i class="fas fa-book"></i>
-                    Mata Pelajaran Saya
+                <a class="nav-link" href="../attendance/student.php">
+                    <i class="fas fa-calendar-check me-2"></i>Absensi Siswa
                 </a>
             </li>
-            
+
             <li class="nav-item">
-                <a class="nav-link <?= basename($_SERVER['PHP_SELF']) == 'profile.php' ? 'active' : '' ?>" href="profile.php">
-                    <i class="fas fa-user"></i>
-                    Profil Saya
+                <a class="nav-link" href="../profile.php">
+                    <i class="fas fa-user me-2"></i>Profil
+                </a>
+            </li>
+        </ul>
+
+        <hr>
+
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link" href="../../auth/logout.php">
+                    <i class="fas fa-sign-out-alt me-2"></i>Logout
                 </a>
             </li>
         </ul>
     </div>
 </nav>
-
-<style>
-.sidebar {
-    background: linear-gradient(180deg, var(--white) 0%, var(--gray-50) 100%);
-    border-right: 1px solid var(--gray-200);
-    box-shadow: var(--shadow-sm);
-    min-height: calc(100vh - 76px);
-}
-
-.sidebar .nav-link {
-    color: var(--gray-700);
-    padding: 0.75rem 1.25rem;
-    border-radius: 0.5rem;
-    margin: 0.25rem 0.75rem;
-    transition: all 0.3s ease;
-    font-weight: 500;
-}
-
-.sidebar .nav-link:hover,
-.sidebar .nav-link.active {
-    background: linear-gradient(135deg, var(--primary-red) 0%, var(--primary-red-dark) 100%);
-    color: white;
-}
-
-.sidebar .nav-link i {
-    margin-right: 0.75rem;
-    width: 20px;
-    text-align: center;
-}
-
-.sidebar-heading {
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-}
-</style>

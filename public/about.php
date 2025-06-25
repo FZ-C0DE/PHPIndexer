@@ -181,3 +181,74 @@ try {
     <script src="../assets/js/public/main.js"></script>
 </body>
 </html>
+<?php
+require_once '../config/constants.php';
+?>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tentang - <?= APP_NAME ?></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/public/style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.php">
+                <i class="fas fa-graduation-cap me-2"></i><?= APP_NAME ?>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.php">Beranda</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="about.php">Tentang</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="gallery.php">Galeri</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact.php">Kontak</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../auth/login.php">Login</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5 pt-5">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <h1 class="mb-4">Tentang <?= APP_NAME ?></h1>
+                <p class="lead">Sistem Manajemen Sekolah yang modern dan terintegrasi.</p>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <h3>Visi</h3>
+                        <p>Menjadi sistem manajemen sekolah terdepan yang mendukung digitalisasi pendidikan.</p>
+                        
+                        <h3>Misi</h3>
+                        <ul>
+                            <li>Menyediakan platform terintegrasi untuk manajemen sekolah</li>
+                            <li>Meningkatkan efisiensi administrasi sekolah</li>
+                            <li>Mendukung proses pembelajaran yang modern</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
