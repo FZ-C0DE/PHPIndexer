@@ -20,6 +20,11 @@ if (!defined('SITE_NAME')) {
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/dataTables.bootstrap5.min.css">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/admin/dashboard.css">
+    
+    <!-- jQuery (load before Bootstrap) -->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
     <!-- Navigation -->

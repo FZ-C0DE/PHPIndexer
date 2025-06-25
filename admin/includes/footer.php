@@ -1,7 +1,6 @@
-<!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap5.min.js"></script>
     <!-- DataTables JS -->
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
@@ -49,8 +48,30 @@
                 });
             });
 
-            // Fix sidebar active states
-            $('.sidebar .nav-link').on('click', function() {
+            // Fix sidebar dropdown functionality
+            $('.sidebar .nav-link[data-bs-toggle="collapse"]').on('click', function(e) {
+                e.preventDefault();
+                const target = $(this).attr('href');
+                
+                // Toggle the clicked dropdown
+                $(target).collapse('toggle');
+                
+                // Close other dropdowns
+                $('.sidebar .collapse').not(target).collapse('hide');
+                
+                // Toggle chevron icon
+                const chevron = $(this).find('.fa-chevron-down');
+                setTimeout(() => {
+                    if ($(target).hasClass('show')) {
+                        chevron.removeClass('fa-chevron-down').addClass('fa-chevron-up');
+                    } else {
+                        chevron.removeClass('fa-chevron-up').addClass('fa-chevron-down');
+                    }
+                }, 200);
+            });
+
+            // Fix sidebar active states for regular links
+            $('.sidebar .nav-link:not([data-bs-toggle="collapse"])').on('click', function() {
                 $('.sidebar .nav-link').removeClass('active');
                 $(this).addClass('active');
             });
