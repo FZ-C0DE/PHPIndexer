@@ -7,6 +7,7 @@ if (session_status() === PHP_SESSION_NONE) {
 // Include required files
 require_once __DIR__ . '/../config/constants.php';
 require_once __DIR__ . '/../config/functions.php';
+require_once __DIR__ . '/../config/database.php';
 
 // Check session timeout
 if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity'] > SESSION_TIMEOUT)) {
@@ -27,9 +28,10 @@ if (!isLoggedIn()) {
 // Update user's last seen timestamp
 if (isset($_SESSION['user_id'])) {
     try {
-        require_once __DIR__ . '/../config/database.php';
-        $stmt = $pdo->prepare("UPDATE users SET last_login = NOW() WHERE id = ?");
-        $stmt->execute([$_SESSION['user_id']]);
+        if (isset($pdo)) {
+            $stmt = $pdo->prepare("UPDATE users SET last_login = NOW() WHERE id = ?");
+            $stmt->execute([$_SESSION['user_id']]);
+        }
     } catch(PDOException $e) {
         // Continue silently if update fails
     }

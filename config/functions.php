@@ -146,18 +146,21 @@ function uploadFile($file, $destination, $allowedTypes = null, $maxSize = null) 
  * Log system activity
  */
 function logActivity($action, $description = '', $user_id = null) {
-    global $pdo;
-
+    // Include database connection
+    require_once __DIR__ . '/database.php';
+    
     $user_id = $user_id ?: ($_SESSION['user_id'] ?? null);
     $ip_address = $_SERVER['REMOTE_ADDR'] ?? '';
     $user_agent = $_SERVER['HTTP_USER_AGENT'] ?? '';
 
     try {
-        $stmt = $pdo->prepare("
-            INSERT INTO activity_logs (user_id, action, description, ip_address, user_agent, created_at) 
-            VALUES (?, ?, ?, ?, ?, NOW())
-        ");
-        $stmt->execute([$user_id, $action, $description, $ip_address, $user_agent]);
+        if (isset($pdo)) {
+            $stmt = $pdo->prepare("
+                INSERT INTO activity_logs (user_id, action, description, ip_address, user_agent, created_at) 
+                VALUES (?, ?, ?, ?, ?, NOW())
+            ");
+            $stmt->execute([$user_id, $action, $description, $ip_address, $user_agent]);
+        }
     } catch(PDOException $e) {
         // Log error but don't stop execution
         error_log("Failed to log activity: " . $e->getMessage());
@@ -171,15 +174,19 @@ function sendNotification($type, $recipient, $subject, $message) {
     // This is a placeholder for notification system
     // Can be extended to support email, SMS, push notifications, etc.
 
-    global $pdo;
+    // Include database connection
+    require_once __DIR__ . '/database.php';
 
     try {
-        $stmt = $pdo->prepare("
-            INSERT INTO notifications (type, recipient, subject, message, status, created_at) 
-            VALUES (?, ?, ?, ?, 'pending', NOW())
-        ");
-        $stmt->execute([$type, $recipient, $subject, $message]);
-        return true;
+        if (isset($pdo)) {
+            $stmt = $pdo->prepare("
+                INSERT INTO notifications (type, recipient, subject, message, status, created_at) 
+                VALUES (?, ?, ?, ?, 'pending', NOW())
+            ");
+            $stmt->execute([$type, $recipient, $subject, $message]);
+            return true;
+        }
+        return false;
     } catch(PDOException $e) {
         error_log("Failed to send notification: " . $e->getMessage());
         return false;

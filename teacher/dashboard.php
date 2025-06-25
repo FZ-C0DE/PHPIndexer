@@ -1,9 +1,8 @@
 <?php
-require_once '../includes/functions.php';
-require_once '../config/database.php';
+require_once '../includes/auth-check.php';
+require_once '../config/functions.php';
 
-checkLogin();
-checkRole('teacher');
+requireRole('teacher');
 
 // Get teacher information
 try {
