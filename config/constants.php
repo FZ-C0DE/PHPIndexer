@@ -9,8 +9,10 @@ define('DB_PASS', '');
 
 // Application Configuration
 define('APP_NAME', 'Sistem Manajemen Sekolah');
+define('SITE_NAME', 'Sistem Manajemen Sekolah');
 define('APP_VERSION', '1.0.0');
 define('APP_URL', 'http://localhost/projectAi/PHPIndexer');
+define('BASE_URL', 'http://localhost/projectAi/PHPIndexer');
 
 // Path Configuration for XAMPP
 define('BASE_PATH', $_SERVER['DOCUMENT_ROOT'] . '/projectAi/PHPIndexer');

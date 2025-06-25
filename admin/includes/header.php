@@ -1,4 +1,10 @@
 
+<?php
+// Ensure constants are loaded
+if (!defined('SITE_NAME')) {
+    require_once '../config/constants.php';
+}
+?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
