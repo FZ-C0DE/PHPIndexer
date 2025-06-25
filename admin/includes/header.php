@@ -13,7 +13,7 @@
     <!-- DataTables CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/dataTables.bootstrap5.min.css">
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="../assets/css/admin/dashboard.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/admin/dashboard.css">
 </head>
 <body>
     <!-- Navigation -->

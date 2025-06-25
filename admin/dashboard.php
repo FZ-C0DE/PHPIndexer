@@ -1,9 +1,23 @@
 
 <?php
+// Enable error reporting for debugging
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 require_once '../includes/auth-check.php';
 require_once '../config/database.php';
 
+// Check if constants are defined
+if (!defined('SITE_NAME')) {
+    require_once '../config/constants.php';
+}
+
 requireRole('admin');
+
+// Check database connection
+if (!isset($pdo)) {
+    die('Database connection not available. Please check database configuration.');
+}
 
 // Get statistics
 try {
