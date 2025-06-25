@@ -9,8 +9,10 @@ $success = '';
 if (isset($_SESSION['user_id'])) {
     if ($_SESSION['role'] === 'admin') {
         header("Location: ../admin/dashboard.php");
-    } else {
+    } elseif ($_SESSION['role'] === 'teacher') {
         header("Location: ../teacher/dashboard.php");
+    } else {
+        header("Location: ../student/dashboard.php");
     }
     exit();
 }

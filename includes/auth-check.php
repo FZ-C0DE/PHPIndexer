@@ -34,4 +34,39 @@ if (isset($_SESSION['user_id'])) {
         // Continue silently if update fails
     }
 }
+
+// Check if user has student role
+function isStudent() {
+    return isset($_SESSION['role']) && $_SESSION['role'] === 'student';
+}
+
+// Redirect based on role if accessing wrong dashboard
+function checkRoleAccess() {
+    if (!isLoggedIn()) {
+        return;
+    }
+
+    $current_path = $_SERVER['REQUEST_URI'];
+
+    // Check if admin trying to access other dashboards
+    if ($_SESSION['role'] === 'admin' && (strpos($current_path, '/student/') !== false || strpos($current_path, '/teacher/') !== false)) {
+        header("Location: ../admin/dashboard.php");
+        exit();
+    }
+
+    // Check if teacher trying to access admin or student dashboards
+    if ($_SESSION['role'] === 'teacher' && (strpos($current_path, '/admin/') !== false || strpos($current_path, '/student/') !== false)) {
+        header("Location: ../teacher/dashboard.php");
+        exit();
+    }
+
+    // Check if student trying to access admin or teacher dashboards
+    if ($_SESSION['role'] === 'student' && (strpos($current_path, '/admin/') !== false || strpos($current_path, '/teacher/') !== false)) {
+        header("Location: ../student/dashboard.php");
+        exit();
+    }
+}
+
+// Call the function
+checkRoleAccess();
 ?>

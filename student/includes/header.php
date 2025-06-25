@@ -17,6 +17,46 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="../assets/css/admin/dashboard.css">
     
+    <style>
+        /* Additional styles for student dashboard */
+        .navbar-brand {
+            color: #fff !important;
+            font-weight: 600;
+        }
+        
+        .header-main {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%) !important;
+        }
+        
+        body {
+            padding-top: 76px;
+            background: #f8f9fa !important;
+        }
+        
+        .sidebar {
+            margin-top: 76px;
+            height: calc(100vh - 76px);
+            position: fixed;
+            background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%) !important;
+        }
+        
+        main {
+            margin-left: 250px;
+            padding: 20px;
+            min-height: calc(100vh - 76px);
+            background: #f8f9fa;
+        }
+        
+        @media (max-width: 767px) {
+            main {
+                margin-left: 0;
+            }
+            .sidebar {
+                margin-left: -250px;
+            }
+        }
+    </style>
+    
     <!-- DataTables CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
 </head>

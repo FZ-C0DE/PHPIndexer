@@ -13,15 +13,15 @@
     <!-- DataTables CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/dataTables.bootstrap5.min.css">
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/admin/dashboard.css">
+    <link rel="stylesheet" href="../assets/css/admin/dashboard.css">
 </head>
 <body>
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark header-main fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark header-main">
         <div class="container-fluid">
-            <a class="navbar-brand" href="<?= BASE_URL ?>/admin/dashboard.php">
+            <a class="navbar-brand" href="dashboard.php">
                 <i class="fas fa-graduation-cap me-2"></i>
-                <?= SITE_NAME ?>
+                Admin Dashboard
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
