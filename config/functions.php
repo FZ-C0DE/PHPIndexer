@@ -44,11 +44,16 @@ function requireLogin() {
 /**
  * Require user to have specific role
  */
-function requireRole($role) {
-    requireLogin();
-    if (!hasRole($role)) {
-        redirect('../auth/login.php?error=unauthorized');
+function requireRole($required_role) {
+    if (!isset($_SESSION['role']) || $_SESSION['role'] !== $required_role) {
+        header("Location: ../auth/login.php");
+        exit();
     }
+}
+
+// Check if user has student role
+function isStudent() {
+    return isset($_SESSION['role']) && $_SESSION['role'] === 'student';
 }
 
 /**
@@ -101,34 +106,34 @@ function uploadFile($file, $destination, $allowedTypes = null, $maxSize = null) 
     if (!isset($file) || $file['error'] !== UPLOAD_ERR_OK) {
         return ['success' => false, 'message' => 'File upload error'];
     }
-    
+
     $allowedTypes = $allowedTypes ?: ALLOWED_IMAGE_TYPES;
     $maxSize = $maxSize ?: MAX_FILE_SIZE;
-    
+
     $fileName = $file['name'];
     $fileSize = $file['size'];
     $fileTmp = $file['tmp_name'];
     $fileExt = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
-    
+
     // Validate file type
     if (!in_array($fileExt, $allowedTypes)) {
         return ['success' => false, 'message' => 'File type not allowed'];
     }
-    
+
     // Validate file size
     if ($fileSize > $maxSize) {
         return ['success' => false, 'message' => 'File size too large'];
     }
-    
+
     // Generate unique filename
     $newFileName = uniqid() . '_' . time() . '.' . $fileExt;
     $uploadPath = $destination . '/' . $newFileName;
-    
+
     // Create directory if it doesn't exist
     if (!is_dir($destination)) {
         mkdir($destination, 0755, true);
     }
-    
+
     // Move uploaded file
     if (move_uploaded_file($fileTmp, $uploadPath)) {
         return ['success' => true, 'filename' => $newFileName, 'path' => $uploadPath];
@@ -142,11 +147,11 @@ function uploadFile($file, $destination, $allowedTypes = null, $maxSize = null) 
  */
 function logActivity($action, $description = '', $user_id = null) {
     global $pdo;
-    
+
     $user_id = $user_id ?: ($_SESSION['user_id'] ?? null);
     $ip_address = $_SERVER['REMOTE_ADDR'] ?? '';
     $user_agent = $_SERVER['HTTP_USER_AGENT'] ?? '';
-    
+
     try {
         $stmt = $pdo->prepare("
             INSERT INTO activity_logs (user_id, action, description, ip_address, user_agent, created_at) 
@@ -165,9 +170,9 @@ function logActivity($action, $description = '', $user_id = null) {
 function sendNotification($type, $recipient, $subject, $message) {
     // This is a placeholder for notification system
     // Can be extended to support email, SMS, push notifications, etc.
-    
+
     global $pdo;
-    
+
     try {
         $stmt = $pdo->prepare("
             INSERT INTO notifications (type, recipient, subject, message, status, created_at) 
@@ -186,7 +191,7 @@ function sendNotification($type, $recipient, $subject, $message) {
  */
 function calculateAge($birthDate) {
     if (empty($birthDate)) return 0;
-    
+
     $birth = new DateTime($birthDate);
     $today = new DateTime();
     return $birth->diff($today)->y;
@@ -198,13 +203,13 @@ function calculateAge($birthDate) {
 function getAcademicYearOptions($currentYear = null) {
     $currentYear = $currentYear ?: date('Y');
     $options = [];
-    
+
     for ($i = -2; $i <= 2; $i++) {
         $year = $currentYear + $i;
         $nextYear = $year + 1;
         $options[] = "$year/$nextYear";
     }
-    
+
     return $options;
 }
 
@@ -221,7 +226,7 @@ function isWorkingHours($start = '07:00', $end = '17:00') {
  */
 function generateBreadcrumb($items) {
     $breadcrumb = '<nav aria-label="breadcrumb"><ol class="breadcrumb">';
-    
+
     $total = count($items);
     foreach ($items as $index => $item) {
         if ($index === $total - 1) {
@@ -236,7 +241,7 @@ function generateBreadcrumb($items) {
             }
         }
     }
-    
+
     $breadcrumb .= '</ol></nav>';
     return $breadcrumb;
 }
