@@ -82,10 +82,7 @@ RewriteRule ^(.*)$ index.php [QSA,L]
 </Files>
 
 # Prevent access to sensitive directories but allow proper access to files
-<LocationMatch "^/(config|database|libs)/">
-    Order allow,deny
-    Deny from all
-</LocationMatch>
+
 
 # Enable compression
 <IfModule mod_deflate.c>
